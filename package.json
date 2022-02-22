@@ -1,0 +1,25 @@
+{
+  "name": "cli-hw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rapita-olha/CLI-HW.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rapita-olha/CLI-HW/issues"
+  },
+  "homepage": "https://github.com/rapita-olha/CLI-HW#readme",
+  "dependencies": {
+    "command": "0.0.5",
+    "commander": "9.0.0"
+  }
+}
