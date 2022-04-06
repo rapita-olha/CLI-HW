@@ -1,40 +1,62 @@
-const fs = require("fs/promises");
+const fs = require("fs").promises;
 const path = require("path");
-const { randomUUIO, randomUUID } = require("crypto");
-const ct = require("./contact.json");
+const { nanoid } = require("nanoid");
 
-const readContent = async () => {
-  const content = await fs.readFile(
-    path.join(__dirname, "contact.json"),
-    "utf8"
-  );
-  const result = JSON.parse(content);
-  return result;
-};
+const contactsPath = path.join(__dirname, "db", "./contact.json");
 
 async function listContacts() {
-  return await readContent();
+  try {
+    const contacts = await fs.readFile(contactsPath);
+    return JSON.parse(contacts);
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
 async function getContactById(contactId) {
-  const contacts = await readContent();
-  const [contact] = contacts.filter((e) => e.id === contactId);
-  return contact;
+  try {
+    const contacts = await listContacts();
+    return contacts.find(({ id }) => id === contactId);
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
-function removeContact(contactId) {
-  // ...твой код
+async function removeContact(contactId) {
+  try {
+    const contacts = await listContacts();
+    const updatedContacts = contacts.filter(({ id }) => id !== contactId);
+    const idx = contacts.findIndex(({ id }) => id === contactId);
+    if (idx === -1) {
+      return null;
+    }
+    console.log(idx);
+    fs.writeFile(
+      contactsPath,
+      JSON.stringify(updatedContacts, null, 2),
+      "utf-8"
+    );
+    return contacts[idx];
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
 async function addContact(name, email, phone) {
-  const contacts = await readContent();
-  const newContact = { id: randomUUID(), name, email, phone };
-  contacts.push(newContact);
-  await fs.writeFile(
-    path.join(__dirname, "contact.json"),
-    JSON.stringify(contacts, null, 2)
-  );
-  return newContact;
+  try {
+    const newContact = {
+      id: nanoid(),
+      name,
+      email,
+      phone,
+    };
+    const contacts = await listContacts();
+    contacts.push(newContact);
+    fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+    return newContact;
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
 module.exports = { listContacts, getContactById, removeContact, addContact };

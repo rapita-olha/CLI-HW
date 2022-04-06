@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "start:dev": "nodemon index"
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,10 @@
   "homepage": "https://github.com/rapita-olha/CLI-HW#readme",
   "dependencies": {
     "command": "0.0.5",
-    "commander": "9.0.0"
+    "commander": "9.0.0",
+    "nanoid": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
